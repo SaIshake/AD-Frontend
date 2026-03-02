@@ -1,0 +1,144 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --bg-primary: #ffffff;
+    --bg-secondary: #f9fafb;
+    --text-primary: #111827;
+    --text-secondary: #4b5563;
+    --border-color: #e5e7eb;
+    --surface-color: #ffffff;
+    --shadow-color: rgba(0, 0, 0, 0.05);
+
+    /* UI Colors */
+    --accent-blue: #2563eb;
+    --accent-hover: #1d4ed8;
+  }
+
+  :root.dark {
+    --bg-primary: #09090b;
+    --bg-secondary: #18181b;
+    --text-primary: #f4f4f5;
+    --text-secondary: #a1a1aa;
+    --border-color: #27272a;
+    --surface-color: #09090b;
+    --shadow-color: rgba(0, 0, 0, 0.2);
+
+    /* UI Colors */
+    --accent-blue: #3b82f6;
+    --accent-hover: #60a5fa;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    @apply antialiased transition-colors duration-300;
+    font-family: 'IBM Plex Sans', system-ui, sans-serif;
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background-color: var(--bg-secondary);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: var(--border-color);
+    cursor: pointer;
+    border-radius: 9999px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: var(--text-secondary);
+  }
+}
+
+@layer components {
+  .card {
+    background-color: var(--surface-color);
+    border: 1px solid var(--border-color);
+    box-shadow: 0 4px 6px -1px var(--shadow-color);
+    @apply rounded-xl transition-all duration-300;
+  }
+
+  .btn-primary {
+    @apply text-white px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 whitespace-nowrap active:scale-95 hover:shadow-lg shadow-blue-500/20;
+    background-color: var(--accent-blue);
+  }
+
+  .btn-primary:hover {
+    background-color: var(--accent-hover);
+  }
+
+  .btn-secondary {
+    @apply bg-transparent text-secondary px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 border border-theme flex items-center gap-2 whitespace-nowrap hover:bg-surface-secondary active:scale-95;
+  }
+
+  .btn-danger {
+    @apply bg-red-500/10 hover:bg-red-500/20 text-red-500 border border-red-500/20 px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 flex items-center gap-2 active:scale-95;
+  }
+
+  .input {
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    @apply w-full rounded-lg px-3 py-2 text-sm text-primary placeholder:text-zinc-500 focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all duration-200;
+  }
+
+  .label {
+    @apply block text-xs font-bold text-zinc-500 dark:text-zinc-400 mb-1.5 uppercase tracking-widest;
+  }
+
+  .badge {
+    @apply inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider;
+  }
+
+  .table-row {
+    @apply border-b border-theme hover:bg-surface-secondary transition-colors duration-150;
+  }
+
+  .table-th {
+    @apply text-[10px] font-bold text-zinc-500 uppercase tracking-widest px-4 py-4 text-left;
+  }
+
+  .table-td {
+    @apply px-4 py-4 text-sm text-secondary;
+  }
+
+  .sidebar-item {
+    @apply flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-all duration-200 cursor-pointer;
+  }
+
+  .sidebar-item-active {
+    background-color: var(--accent-blue);
+    @apply text-white shadow-lg shadow-blue-500/25;
+  }
+
+  .sidebar-item-inactive {
+    @apply text-secondary hover:text-primary hover:bg-surface-secondary;
+  }
+}
+
+.mono {
+  font-family: 'IBM Plex Mono', monospace;
+}
+
+/* Subtle Animation for Theme Switching */
+.theme-transition {
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Glassmorphism Effect */
+.glass {
+  background-color: var(--surface-color);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
