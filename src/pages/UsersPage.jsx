@@ -379,7 +379,7 @@ export default function UsersPage() {
     setModal(null);
     if (type === 'toggle') {
       try {
-        await API.post(`/users/${user.username}/toggle`, { enable: !user.isEnabled });
+        await API.patch(`/users/${user.username}/toggle`, { enable: !user.isEnabled });
         showToast(`User ${!user.isEnabled ? 'enabled' : 'disabled'}`);
         loadUsers();
       } catch (err) {
