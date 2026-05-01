@@ -8,7 +8,10 @@ export function ToastProvider({ children }) {
   const addToast = useCallback((msg, type = 'success') => {
     const id = Date.now();
     setToasts(t => [...t, { id, msg, type }]);
-    setTimeout(() => setToasts(t => t.filter(x => x.id !== id)), 3500);
+
+    // Dynamic duration based on text length (min 4s, extended up to 15s for long detailed AD errors)
+    const duration = Math.max(4000, Math.min((msg?.length || 0) * 80, 15000));
+    setTimeout(() => setToasts(t => t.filter(x => x.id !== id)), duration);
   }, []);
 
   return (

@@ -96,7 +96,9 @@ export function AuthProvider({ children }) {
     }
   };
 
-  const can = (permission) => user?.permissions?.includes(permission) ?? false;
+  // AD native permissions will return an Access Denied error from API endpoints
+  // we do not need to proactively hide UI buttons anymore.
+  const can = () => true;
 
   return (
     <AuthContext.Provider value={{ user, login, logout, can, loading }}>

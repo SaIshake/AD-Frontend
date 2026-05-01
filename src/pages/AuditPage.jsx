@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { API } from '../context/AuthContext.jsx';
+import { API, useAuth } from '../context/AuthContext.jsx';
 
 const ACTION_COLORS = {
   login: 'text-emerald-500 bg-emerald-500/10 border-emerald-500/20',
@@ -30,6 +30,8 @@ function timeAgo(date) {
 }
 
 export default function AuditPage() {
+  const { user } = useAuth();
+  const isDomainAdmin = user?.groups?.some(g => g.toLowerCase() === 'domain admins');
   const [logs, setLogs] = useState([]);
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(true);
@@ -68,11 +70,13 @@ export default function AuditPage() {
 
       {/* Filters */}
       <div className="flex flex-col sm:flex-row items-center gap-4 bg-surface-secondary/20 p-4 border border-theme rounded-2xl">
-        <div className="relative flex-1 w-full">
-          <svg className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
-          <input className="input pl-11 h-11" placeholder="Search actor username..." value={filterUser} onChange={e => { setFilterUser(e.target.value); setPage(1); }} />
-        </div>
-        <div className="relative w-full sm:w-64">
+        {isDomainAdmin && (
+          <div className="relative flex-1 w-full">
+            <svg className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
+            <input className="input pl-11 h-11" placeholder="Search actor username..." value={filterUser} onChange={e => { setFilterUser(e.target.value); setPage(1); }} />
+          </div>
+        )}
+        <div className={`relative w-full ${isDomainAdmin ? 'sm:w-64' : 'sm:w-full'}`}>
           <svg className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-secondary pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" /></svg>
           <select className="input pl-11 h-11 appearance-none cursor-pointer" value={filterAction} onChange={e => { setFilterAction(e.target.value); setPage(1); }}>
             <option value="">All system actions</option>
